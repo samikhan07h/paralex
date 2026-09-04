@@ -1,0 +1,42 @@
+[
+  {
+    "id": "financials_001",
+    "question": "What was the net revenue in FY2024 compared to FY2023?",
+    "expected_answer": "Net revenue was $3,150 million in FY2024, compared to $2,780 million in FY2023.",
+    "expected_source_doc": "sample_financial_statements.pdf",
+    "expected_clause_number": null,
+    "expected_keywords": ["3,150", "2,780"]
+  },
+  {
+    "id": "financials_002",
+    "question": "What was the net income in FY2024 according to the income statement?",
+    "expected_answer": "Net income was $645 million in FY2024.",
+    "expected_source_doc": "sample_financial_statements.pdf",
+    "expected_clause_number": null,
+    "expected_keywords": ["645"]
+  },
+  {
+    "id": "financials_003",
+    "question": "What were total assets according to the balance sheet?",
+    "expected_answer": "Total assets were $3,050 million in FY2024, compared to $2,650 million in FY2023.",
+    "expected_source_doc": "sample_financial_statements.pdf",
+    "expected_clause_number": null,
+    "expected_keywords": ["3,050", "2,650"]
+  },
+  {
+    "id": "financials_004",
+    "question": "How much long-term debt did the company have according to the balance sheet?",
+    "expected_answer": "Long-term debt was $560 million in FY2024, compared to $520 million in FY2023.",
+    "expected_source_doc": "sample_financial_statements.pdf",
+    "expected_clause_number": null,
+    "expected_keywords": ["560", "520"]
+  },
+  {
+    "id": "financials_005",
+    "question": "What was total stockholders' equity in FY2024?",
+    "expected_answer": "Total stockholders' equity was $1,870 million in FY2024.",
+    "expected_source_doc": "sample_financial_statements.pdf",
+    "expected_clause_number": null,
+    "expected_keywords": ["1,870"]
+  }
+]

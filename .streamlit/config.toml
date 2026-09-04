@@ -1,0 +1,20 @@
+# Streamlit theme — full dark "ledger and seal" theme.
+#
+# WHY base = "dark" MATTERS (this fixes real bugs from the previous
+# light-main/dark-sidebar approach): setting base="dark" tells Streamlit's
+# own component rendering (buttons, the file uploader, code spans, sliders,
+# etc.) to use dark-mode-appropriate internal styling automatically. The
+# previous approach tried to force a dark LOOK onto light-mode components
+# via blanket CSS color overrides — which broke wherever a Streamlit widget
+# had its own background we hadn't accounted for (e.g. the file uploader's
+# "Browse files" button rendered with invisible text). Using the real theme
+# system instead of fighting it with !important overrides means Streamlit
+# picks correct, readable contrast for its native widgets by construction.
+
+[theme]
+base = "dark"
+primaryColor = "#C9A227"
+backgroundColor = "#10151F"
+secondaryBackgroundColor = "#1B2438"
+textColor = "#EAE7DD"
+font = "sans serif"

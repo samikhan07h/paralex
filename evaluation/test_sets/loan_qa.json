@@ -1,0 +1,50 @@
+[
+  {
+    "id": "loan_001",
+    "question": "What is the loan amount and interest rate?",
+    "expected_answer": "The loan principal is $150,000.00, at a fixed annual interest rate of 6.75%.",
+    "expected_source_doc": "sample_loan_agreement.pdf",
+    "expected_clause_number": "1",
+    "expected_keywords": ["150,000", "6.75"]
+  },
+  {
+    "id": "loan_002",
+    "question": "What is the monthly payment and how long is the repayment period?",
+    "expected_answer": "The borrower repays the loan in 60 equal monthly installments of $2,946.31.",
+    "expected_source_doc": "sample_loan_agreement.pdf",
+    "expected_clause_number": "3",
+    "expected_keywords": ["60", "2,946.31"]
+  },
+  {
+    "id": "loan_003",
+    "question": "Is there a penalty for paying off the loan early?",
+    "expected_answer": "No, the borrower may prepay all or part of the outstanding principal at any time without penalty.",
+    "expected_source_doc": "sample_loan_agreement.pdf",
+    "expected_clause_number": "4",
+    "expected_keywords": ["without penalty"]
+  },
+  {
+    "id": "loan_004",
+    "question": "What happens if I default on the loan?",
+    "expected_answer": "The borrower is in default if a payment is more than 30 days past due, or upon breach of any other material term. Upon default, the lender may declare the entire unpaid balance immediately due.",
+    "expected_source_doc": "sample_loan_agreement.pdf",
+    "expected_clause_number": "6",
+    "expected_keywords": ["30 days", "immediately due"]
+  },
+  {
+    "id": "loan_005",
+    "question": "What collateral secures this loan?",
+    "expected_answer": "The loan is secured by the commercial equipment described in Exhibit A, in which the borrower grants the lender a security interest.",
+    "expected_source_doc": "sample_loan_agreement.pdf",
+    "expected_clause_number": "7",
+    "expected_keywords": ["commercial equipment", "Exhibit A"]
+  },
+  {
+    "id": "loan_006",
+    "question": "What is the late payment fee on this loan?",
+    "expected_answer": "A late fee of 5% of the overdue amount applies if payment is not received within 10 days of its due date.",
+    "expected_source_doc": "sample_loan_agreement.pdf",
+    "expected_clause_number": "5",
+    "expected_keywords": ["5%", "10 days"]
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "tenk_001",
+    "question": "What was the total net revenue in fiscal 2024?",
+    "expected_answer": "Total net revenue for fiscal year 2024 was $4.82 billion, an increase of 11.3% compared to fiscal 2023.",
+    "expected_source_doc": "sample_10k_excerpt.pdf",
+    "expected_clause_number": null,
+    "expected_keywords": ["4.82 billion", "11.3%"]
+  },
+  {
+    "id": "tenk_002",
+    "question": "What was the gross margin in fiscal 2024?",
+    "expected_answer": "Gross profit for fiscal 2024 was $2.91 billion, representing a gross margin of 60.4%.",
+    "expected_source_doc": "sample_10k_excerpt.pdf",
+    "expected_clause_number": null,
+    "expected_keywords": ["60.4%", "2.91 billion"]
+  },
+  {
+    "id": "tenk_003",
+    "question": "What was the net income per diluted share in fiscal 2024?",
+    "expected_answer": "Net income for fiscal 2024 was $612 million, or $2.14 per diluted share.",
+    "expected_source_doc": "sample_10k_excerpt.pdf",
+    "expected_clause_number": null,
+    "expected_keywords": ["612 million", "2.14"]
+  },
+  {
+    "id": "tenk_004",
+    "question": "How much cash did the company have at the end of fiscal 2024?",
+    "expected_answer": "The company had cash and cash equivalents of $1.15 billion and total debt of $800 million at the end of fiscal 2024.",
+    "expected_source_doc": "sample_10k_excerpt.pdf",
+    "expected_clause_number": null,
+    "expected_keywords": ["1.15 billion", "800 million"]
+  },
+  {
+    "id": "tenk_005",
+    "question": "Why did operating expenses increase in fiscal 2024?",
+    "expected_answer": "Operating expenses increased primarily due to increased headcount in research and development, which grew from 3,200 to 3,850 employees.",
+    "expected_source_doc": "sample_10k_excerpt.pdf",
+    "expected_clause_number": null,
+    "expected_keywords": ["3,200", "3,850", "research and development"]
+  }
+]

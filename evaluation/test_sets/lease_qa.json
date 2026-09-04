@@ -1,0 +1,58 @@
+[
+  {
+    "id": "lease_001",
+    "question": "What is the monthly rent and when is it due?",
+    "expected_answer": "The monthly rent is $2,400.00, due on the 1st day of each month.",
+    "expected_source_doc": "sample_lease_agreement.pdf",
+    "expected_clause_number": "3",
+    "expected_keywords": ["2,400", "1st"]
+  },
+  {
+    "id": "lease_002",
+    "question": "What happens if I pay my rent late?",
+    "expected_answer": "A late fee of $75.00 applies to payments received after the 5th day of the month.",
+    "expected_source_doc": "sample_lease_agreement.pdf",
+    "expected_clause_number": "3",
+    "expected_keywords": ["75", "5th"]
+  },
+  {
+    "id": "lease_003",
+    "question": "How much is the security deposit and when do I get it back?",
+    "expected_answer": "The security deposit is $2,400.00, returned within 30 days of move-out, less any deductions for damage beyond normal wear and tear.",
+    "expected_source_doc": "sample_lease_agreement.pdf",
+    "expected_clause_number": "4",
+    "expected_keywords": ["2,400", "30 days"]
+  },
+  {
+    "id": "lease_004",
+    "question": "Can I have a pet in my apartment?",
+    "expected_answer": "No pets are permitted without the landlord's prior written consent. If consent is granted, an additional pet deposit of $500.00 applies.",
+    "expected_source_doc": "sample_lease_agreement.pdf",
+    "expected_clause_number": "7",
+    "expected_keywords": ["written consent", "500"]
+  },
+  {
+    "id": "lease_005",
+    "question": "Am I allowed to sublet my apartment?",
+    "expected_answer": "No, the tenant may not sublet the premises, in whole or in part, without the landlord's prior written consent.",
+    "expected_source_doc": "sample_lease_agreement.pdf",
+    "expected_clause_number": "8",
+    "expected_keywords": ["prior written consent"]
+  },
+  {
+    "id": "lease_006",
+    "question": "What is the penalty for ending the lease early?",
+    "expected_answer": "Early termination by the tenant before the end of the lease term incurs a fee equal to two months' rent.",
+    "expected_source_doc": "sample_lease_agreement.pdf",
+    "expected_clause_number": "9",
+    "expected_keywords": ["two", "months"]
+  },
+  {
+    "id": "lease_007",
+    "question": "Who is responsible for paying for internet and water?",
+    "expected_answer": "The tenant is responsible for electricity, gas, and internet. The landlord is responsible for water, sewer, and trash collection.",
+    "expected_source_doc": "sample_lease_agreement.pdf",
+    "expected_clause_number": "5",
+    "expected_keywords": ["internet", "water"]
+  }
+]
