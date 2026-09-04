@@ -118,7 +118,7 @@ paralex/
 **Prerequisites:** Python 3.11, a free [Groq API key](https://console.groq.com).
 
 ```bash
-git clone https://github.com/your-username/paralex.git
+git clone https://github.com/samikhan07h/paralex.git
 cd paralex
 
 python -m venv venv
