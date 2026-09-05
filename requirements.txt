@@ -1,5 +1,17 @@
 # --- Phase 1: Core RAG Pipeline ---
 
+# PyTorch CPU-only build — MUST come before sentence-transformers pulls in
+# torch as a transitive dependency. Without this, pip/uv resolves the
+# default GPU-enabled torch build, which drags in a huge, completely
+# unused NVIDIA CUDA toolchain (nvidia-cublas, nvidia-cudnn, nvidia-nccl,
+# triton, etc.) — confirmed directly in a real Streamlit Community Cloud
+# deployment log, where none of this GPU tooling can ever be used (the
+# platform has no GPU). This bloats install size, slows cold starts, and
+# increases baseline memory usage on an already resource-constrained free
+# tier. Pointing at PyTorch's own CPU wheel index avoids all of it.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+
 # PDF / document parsing
 pypdf==4.3.1
 python-docx==1.1.2
