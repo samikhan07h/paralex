@@ -18,3 +18,14 @@ backgroundColor = "#10151F"
 secondaryBackgroundColor = "#1B2438"
 textColor = "#EAE7DD"
 font = "sans serif"
+
+# Explicit upload cap for the deployed free-tier app. Left at Streamlit's
+# 200MB default, a very large real-world PDF (176+ pages, table-heavy) can
+# exceed the free tier's constrained CPU/RAM during processing — a genuine
+# resource limitation, not a bug in the pipeline itself (the same file
+# processes fine locally, without the free tier's throttling). A lower,
+# explicit limit gives users a clear "file too large" message instead of
+# an opaque upload failure, and protects the shared free-tier instance
+# from being overwhelmed by one very large upload.
+[server]
+maxUploadSize = 50
