@@ -3,8 +3,8 @@ Vector store for ParaLex, backed by FAISS.
 
 WHY FAISS (vs a hosted vector DB like Pinecone/Weaviate):
   - Free and fully local — no account, no network dependency, no usage
-    limits. For a portfolio project that needs to be cloned and run by a
-    stranger (or an interviewer) in five minutes, that matters a lot.
+    limits. For a portfolio project that needs to be cloned and run by
+    a stranger (or an interviewer) in five minutes, that matters a lot.
   - Fast — FAISS is a C++ library with Python bindings, built exactly for
     this job (approximate/exact nearest-neighbor search over dense vectors).
   - Persisted to disk, so the index survives between runs and doesn't need
@@ -21,7 +21,7 @@ because the corpus was small enough that approximate search would have
 been solving a problem I didn't have" — that's a much stronger answer than
 copying an HNSW config because a tutorial did.
 
-WHY WE STORE CHUNK METADATA SEPARATELY (JSON) ALONGSIDE THE FAISS INDEX:
+WHY WE STORE CHUNK METADATA SEPARATELY ALONGSIDE THE FAISS INDEX:
 FAISS only stores vectors and returns integer indices on search — it knows
 nothing about the text, source, or clause number behind each vector. We
 maintain a parallel list of Chunk metadata, indexed identically to the
@@ -65,6 +65,7 @@ class VectorStore:
             raise ValueError(
                 f"Mismatch: {len(chunks)} chunks but {embeddings.shape[0]} embeddings."
             )
+
         if embeddings.shape[1] != self.embedding_dim:
             raise ValueError(
                 f"Embedding dimension mismatch: index expects {self.embedding_dim}, "
@@ -73,10 +74,15 @@ class VectorStore:
 
         # FAISS requires float32 contiguous arrays.
         embeddings = np.ascontiguousarray(embeddings.astype("float32"))
+
         self.index.add(embeddings)
         self.chunks.extend(chunks)
 
-    def search(self, query_embedding: np.ndarray, top_k: int = None) -> List[Tuple[Chunk, float]]:
+    def search(
+        self,
+        query_embedding: np.ndarray,
+        top_k: int = None,
+    ) -> List[Tuple[Chunk, float]]:
         """
         Search for the top_k most similar chunks to a query embedding.
 
@@ -93,15 +99,20 @@ class VectorStore:
         query_embedding = np.ascontiguousarray(
             query_embedding.reshape(1, -1).astype("float32")
         )
+
         # Don't request more neighbors than exist in the index.
         k = min(top_k, self.index.ntotal)
+
         scores, indices = self.index.search(query_embedding, k)
 
         results = []
+
         for score, idx in zip(scores[0], indices[0]):
             if idx == -1:
                 continue  # FAISS pads with -1 if fewer than k results exist
+
             results.append((self.chunks[idx], float(score)))
+
         return results
 
     def save(self, directory: str | Path = None) -> None:
@@ -118,6 +129,7 @@ class VectorStore:
         directory.mkdir(parents=True, exist_ok=True)
 
         faiss.write_index(self.index, str(directory / "index.faiss"))
+
         with open(directory / "chunks.pkl", "wb") as f:
             pickle.dump(self.chunks, f)
 
@@ -129,6 +141,7 @@ class VectorStore:
             "num_chunks": len(self.chunks),
             "sources": sorted(set(c.source for c in self.chunks)),
         }
+
         with open(directory / "manifest.json", "w") as f:
             json.dump(manifest, f, indent=2)
 
@@ -139,6 +152,7 @@ class VectorStore:
 
         index_path = directory / "index.faiss"
         chunks_path = directory / "chunks.pkl"
+
         if not index_path.exists() or not chunks_path.exists():
             raise FileNotFoundError(
                 f"No saved vector store found at '{directory}'. "
@@ -146,10 +160,12 @@ class VectorStore:
             )
 
         index = faiss.read_index(str(index_path))
+
         with open(chunks_path, "rb") as f:
             chunks = pickle.load(f)
 
         store = cls(embedding_dim=index.d)
         store.index = index
         store.chunks = chunks
+
         return store
