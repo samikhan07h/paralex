@@ -28,8 +28,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Optional
 
-from src.ingestion.loaders import load_documents_from_dir
-from src.chunking.chunker import clause_aware_chunk
+from src.pipeline import load_and_chunk_documents
 from src.embeddings.embedder import Embedder
 from src.vectorstore.store import VectorStore
 from src.retrieval.retriever import Retriever
@@ -110,8 +109,7 @@ class EvaluationReport:
 
 
 def _build_pipeline():
-    pages = load_documents_from_dir(config.SAMPLE_DOCS_DIR)
-    chunks = clause_aware_chunk(pages)
+    chunks = load_and_chunk_documents(verbose=False)
     embedder = Embedder()
     embeddings = embedder.embed_texts([c.text for c in chunks], show_progress=True)
 
@@ -151,20 +149,30 @@ def run_full_evaluation(top_k: int = None) -> EvaluationReport:
 
     for item in items:
         retrieved = retriever.retrieve(item.question, top_k=top_k)
-        generated = call_with_backoff(lambda: generator.generate(item.question, retrieved))
+        generated = call_with_backoff(
+            lambda: generator.generate(item.question, retrieved)
+        )
         context_text = "\n\n".join(r.chunk.text for r in retrieved)
-        verdict = call_with_backoff(lambda: judge.judge(item.question, context_text, generated.answer))
+        verdict = call_with_backoff(
+            lambda: judge.judge(
+                item.question,
+                context_text,
+                generated.answer,
+            )
+        )
 
-        item_reports.append(ItemReport(
-            item_id=item.id,
-            question=item.question,
-            expected_answer=item.expected_answer,
-            generated_answer=generated.answer,
-            retrieval_rank=rank_by_item_id.get(item.id),
-            faithfulness_score=verdict.score,
-            faithful=verdict.faithful,
-            unsupported_claims=verdict.unsupported_claims,
-        ))
+        item_reports.append(
+            ItemReport(
+                item_id=item.id,
+                question=item.question,
+                expected_answer=item.expected_answer,
+                generated_answer=generated.answer,
+                retrieval_rank=rank_by_item_id.get(item.id),
+                faithfulness_score=verdict.score,
+                faithful=verdict.faithful,
+                unsupported_claims=verdict.unsupported_claims,
+            )
+        )
         faithfulness_scores.append(verdict.score)
         faithful_flags.append(verdict.faithful)
 
@@ -194,8 +202,18 @@ def save_report(report: EvaluationReport, path: Path = None) -> Path:
 
 def main():
     parser = argparse.ArgumentParser(description="Run ParaLex's full evaluation suite")
-    parser.add_argument("--top-k", type=int, default=None, help="Number of chunks to retrieve per question")
-    parser.add_argument("--output", type=str, default=None, help="Path to save the JSON report")
+    parser.add_argument(
+        "--top-k",
+        type=int,
+        default=None,
+        help="Number of chunks to retrieve per question",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default=None,
+        help="Path to save the JSON report",
+    )
     args = parser.parse_args()
 
     print("Running full evaluation (retrieval + generation + faithfulness)...")
