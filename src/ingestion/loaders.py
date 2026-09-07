@@ -29,7 +29,7 @@ class PageContent:
 
     text: str
     source: str          # original filename, e.g. "sample_lease.pdf"
-    page_number: int      # 1-indexed page number (or block index for docx)
+    page_number: int    # 1-indexed page number (or block index for docx)
     metadata: dict = field(default_factory=dict)
 
 
@@ -51,18 +51,24 @@ def load_pdf(file_path: str | Path) -> List[PageContent]:
     for i, page in enumerate(reader.pages, start=1):
         text = page.extract_text() or ""
         text = text.strip()
+
         if not text:
             # Skip genuinely empty pages (e.g. blank separator pages) but
             # don't silently skip pages with sparse-but-real content.
             continue
+
         pages.append(
             PageContent(
                 text=text,
                 source=file_path.name,
                 page_number=i,
-                metadata={"file_type": "pdf", "total_pages": len(reader.pages)},
+                metadata={
+                    "file_type": "pdf",
+                    "total_pages": len(reader.pages),
+                },
             )
         )
+
     return pages
 
 
@@ -71,7 +77,7 @@ def load_docx(file_path: str | Path) -> List[PageContent]:
     Extract text from a DOCX file.
 
     DOCX has no native "page" concept in the underlying XML (pagination is
-    a rendering-time concern), so we treat each non-empty paragraph run as
+    a rendering-time concern), so we treat each non-empty paragraph as
     a block and assign it a sequential block number instead of a page
     number. This keeps the PageContent interface consistent across loaders
     even though the semantics of "page_number" differ slightly by format.
@@ -81,11 +87,15 @@ def load_docx(file_path: str | Path) -> List[PageContent]:
     blocks: List[PageContent] = []
 
     block_index = 0
+
     for para in doc.paragraphs:
         text = para.text.strip()
+
         if not text:
             continue
+
         block_index += 1
+
         blocks.append(
             PageContent(
                 text=text,
@@ -94,6 +104,7 @@ def load_docx(file_path: str | Path) -> List[PageContent]:
                 metadata={"file_type": "docx"},
             )
         )
+
     return blocks
 
 
@@ -110,8 +121,10 @@ def load_document(file_path: str | Path) -> List[PageContent]:
 
     if suffix == ".pdf":
         return load_pdf(file_path)
+
     elif suffix == ".docx":
         return load_docx(file_path)
+
     else:
         raise ValueError(
             f"Unsupported file type '{suffix}' for '{file_path.name}'. "
