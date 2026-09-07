@@ -55,7 +55,7 @@ treating it as the table's heading.
 
 import re
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 import pdfplumber
 
